@@ -21,9 +21,15 @@ public class ChutesAndLadders {
   private static void readFromInputStream(InputStream is) {
     try(Scanner scanner = new Scanner(is)) {
       // Read number of players from command line.
-      System.out.print("Enter number of players (between 2 - 4): ");
-      System.out.println();
-      int players = scanner.nextInt();
+      int players = -1;
+      while(true) {
+          System.out.print("Enter number of players (between 2 - 4): ");
+          players = scanner.nextInt();
+          if (players >= 2 && players <= 4) {
+             break;
+          }
+          System.out.println("Number of players should be between 2 - 4");
+      }
       List<String> playerNames = new ArrayList<>();
       for (int i = 0; i < players; i++) {
         System.out.print("Enter name of player # " + (i + 1) + ": ");

@@ -72,11 +72,10 @@ public class Game {
     return leaders;
   }
   
-  public boolean isGameOver() {
-    for (Player p : this.players) {
-      if (p.getCurrentPosition() == 100) {
-        return true;
-      }
+  public boolean isGameOver(Player player, int position, int numberOfTurns) {
+    if (position == 99) {
+      System.out.println("The winner is " + player.getName() + "!");
+      return true;
     }
     return false;
   }
@@ -109,14 +108,11 @@ public class Game {
         // 99th index is the 100th position.
         if (newPosition > 99) {
           System.out.println(
-              newPosition + " is greater than 100. Player " + player.getName() +
+              (newPosition + 1) + " is greater than 100. Player " + player.getName() +
               " stays at " + (currentPosition + 1));
           continue;
         }
-        if (newPosition == 99) {
-          System.out.println(
-              "We have a winner: Player -  " + player.getName() + " in " +
-              (numberOfTurns % 2 == 1 ? (numberOfTurns / 2 + 1) : (numberOfTurns / 2)) + " turns.");
+        if (isGameOver(player, newPosition, numberOfTurns)) {
           winner = player;
           isGameOver = true;
           break;
@@ -140,6 +136,11 @@ public class Game {
           player.setCurrentPosition(newPosition);
         }
         System.out.println(sb.toString());
+        if (isGameOver(player, player.getCurrentPosition(), numberOfTurns)) {
+          winner = player;
+          isGameOver = true;
+          break;
+        }
       }
     }
     return winner;
