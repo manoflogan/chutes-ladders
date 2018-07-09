@@ -54,11 +54,7 @@ public class Game {
   }
   
   public boolean isGameOver(Player player, int position, int numberOfTurns) {
-    if (position == 99) {
-      System.out.println("The winner is " + player.getName() + "!");
-      return true;
-    }
-    return false;
+    return position == 99;
   }
   
   /**
@@ -80,30 +76,32 @@ public class Game {
               " stays at " + (currentPosition + 1));
           continue;
         }
+        StringBuilder sb = new StringBuilder();
+        sb.append(numberOfTurns).append(": ").append(player.getName()).append(": ").
+            append(player.getCurrentPosition() + 1).append(" --> ").append(newPosition + 1);
         if (isGameOver(player, newPosition, numberOfTurns)) {
+          System.out.println(sb.toString());
+          System.out.println("The winner is " + player.getName());
           isGameOver = true;
           break;
         }
         Square[] squares = board.getSquares();
-        StringBuilder sb = new StringBuilder();
-        sb.append(numberOfTurns).append(": ").append(player.getName()).append(": ").
-            append(player.getCurrentPosition() + 1);
         Ladder ladder = squares[newPosition].getLadder();
         if (ladder != null) {
-          sb.append(" --> ").append(newPosition + 1).append(" --").append("LADDER").append("--> ").append(
+          sb.append(" --").append("LADDER").append("--> ").append(
               ladder.getEndPosition() + 1);
           player.setCurrentPosition(ladder.getEndPosition());
         } else if (squares[newPosition].getChute() != null) {
           Chute chute = squares[newPosition].getChute();
-          sb.append(" --> ").append(newPosition + 1).append(" --").append("CHUTE").append("--> ").append(
+          sb.append(" --").append("CHUTE").append("--> ").append(
               chute.getBottomPosition() + 1);
           player.setCurrentPosition(chute.getBottomPosition());
         } else {
-          sb.append(" --> ").append(newPosition + 1);
           player.setCurrentPosition(newPosition);
         }
         System.out.println(sb.toString());
         if (isGameOver(player, player.getCurrentPosition(), numberOfTurns)) {
+          System.out.println("The winner is " + player.getName());
           isGameOver = true;
           break;
         }
