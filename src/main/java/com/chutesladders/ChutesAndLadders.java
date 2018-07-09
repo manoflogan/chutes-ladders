@@ -37,7 +37,7 @@ public class ChutesAndLadders {
         playerNames.add(name);
       }
       Game game = new Game(playerNames);
-      game.playGame();
+      game.playTheGame();
     }
   }
   
